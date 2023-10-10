@@ -1,7 +1,7 @@
-## Installation
+# Installation
 
 ```bash
-php artisan telescope:install
-php artisan migrate
+php artisan shop:install
 ```
 
+# Deploy
