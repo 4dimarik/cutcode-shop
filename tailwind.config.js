@@ -3,7 +3,6 @@
 module.exports = {
     content: [
         "./resources/**/*.blade.php",
-        "./resources/**/*.js",
     ],
     darkMode: 'media',
     theme: {
