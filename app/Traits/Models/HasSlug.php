@@ -10,28 +10,50 @@ use Illuminate\Database\Eloquent\Model;
 trait HasSlug
 {
 
-    private static int $counter = 0;
-
     protected static function bootHasSlug()
     {
         static::creating(
             function (Model $item) {
-                $item->slug = $item->slug
-                    ?? str($item->{self::slugFrom()})->append(self::getPrefix($item))->slug();
+                $item->makeSlug();
             }
         );
     }
 
-    public static function slugFrom(): string
+    protected function makeSlug(): void
+    {
+        $this->{$this->slugColumn()} = $this->{$this->slugColumn()}
+            ?? $this->slugUnique(str($this->{$this->slugFrom()})->slug()->value());
+    }
+
+    public function slugColumn(): string
+    {
+        return 'slug';
+    }
+
+    public function slugFrom(): string
     {
         return 'title';
     }
 
-    private static function getPrefix(Model $item): string
+    private function slugUnique(string $slug): string
     {
-        return $item->query()->where(self::slugFrom(), '=', $item->{self::slugFrom()})->exists()
-            ? $item->{self::slugFrom()} . "-" . self::$counter++
-            : "";
+        $originalSlug = $slug;
+        $i = 0;
+
+        while ($this->isSlugExists($slug)) {
+            $i++;
+            $slug = $originalSlug . '-' . $i;
+        }
+        return $slug;
+
     }
 
+    private function isSlugExists(string $slug): bool
+    {
+        $query = $this->newQuery()
+            ->where(self::slugColumn(), $slug)
+            ->where($this->getKeyName(), '!=', $this->getKey())
+            ->withoutGlobalScopes();
+        return $query->exists();
+    }
 }

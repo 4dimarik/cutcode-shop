@@ -14,7 +14,6 @@ final class FakerImageProvider extends Base
     public function randomTestImage(string $base_dir, string $images_dir): string|null
     {
         if (Str::length($base_dir) > 0 and Str::length($images_dir) > 0) {
-            // Storage::deleteDirectory($images_dir);
             if (!Storage::exists($images_dir)) {
                 Storage::makeDirectory($images_dir);
             }

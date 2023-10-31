@@ -10,6 +10,13 @@
 @if(session()->has('message'))
     {{session('message')}}
 @endif
+
+@if($message = flash()->get())
+    <div class="{{ $message->class() }}" role="alert">
+        {{ $message->message() }}
+    </div>
+
+@endif
 <main class="md:min-h-screen md:flex md:items-center md:justify-center py-16 lg:py-20">
     <div class="container">
         <!-- Page heading -->
@@ -22,6 +29,7 @@
         </div>
         @yield('content')
     </div>
+    s
 </main>
 </body>
 </html>
