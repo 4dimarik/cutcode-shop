@@ -32,20 +32,20 @@ class AppServiceProvider extends ServiceProvider
                     // $query->bindings
                     // $query->time
 
-//                    if ($query->time > 100) {
-//                      logger()
-//                          ->channel('telegram')
-//                          ->debug('query logger than 1s:' .$query->sql, $query->bindings);
-//                    }
+                    if ($query->time > 100) {
+                        logger()
+                            ->channel('telegram')
+                            ->debug('query logger than 1s:' . $query->sql, $query->bindings);
+                    }
                 }
             );
 
             app(Kernel::class)->whenRequestLifecycleIsLongerThan(
                 CarbonInterval::seconds(4),
                 function () {
-//                logger()
-//                    ->channel('telegram')
-//                    ->debug('whenRequestLifecycleIsLongerThan: ' . request()->url());
+                    logger()
+                        ->channel('telegram')
+                        ->debug('whenRequestLifecycleIsLongerThan: ' . request()->url());
                 }
             );
         }

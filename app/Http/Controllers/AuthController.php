@@ -115,15 +115,16 @@ class AuthController extends Controller
         return Socialite::driver('github')->redirect();
     }
 
-    public function githubCallback()
+    public function githubCallback():RedirectResponse
     {
         $githubUser = Socialite::driver('github')->user();
 
-        $user = User::updateOrCreate([
+        $user = User::query()->updateOrCreate([
             'github_id' => $githubUser->id,
         ], [
-            'name' => $githubUser->name,
-            'email' => $githubUser->email
+            'name' => $githubUser->nickname,
+            'email' => $githubUser->email,
+            'password' => bcrypt(str()->random(20))
         ]);
 
         auth()->login($user);
