@@ -2,11 +2,15 @@
 
 namespace App\Http\Requests;
 
+
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Worksome\RequestFactories\Concerns\HasFactory;
 
 class SignUpFormRequest extends FormRequest
 {
+
+    use HasFactory;
 
     public function authorize(): bool
     {

@@ -56,7 +56,7 @@ class AuthController extends Controller
         return redirect()->intended();
     }
 
-    public function logout(): RedirectResponse
+    public function logOut(): RedirectResponse
     {
         auth()->logout();
 
@@ -81,7 +81,6 @@ class AuthController extends Controller
 
         if($status === Password::RESET_LINK_SENT) {
             flash()->info( __($status));
-
             return back();
         }
 
